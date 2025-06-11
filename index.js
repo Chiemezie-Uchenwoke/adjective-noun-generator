@@ -2,10 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 
 const app = express();
-const port = 3500;
+const port = process.env.PORT || 3500;;
 
-app.use(express.static('public'))
-
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
