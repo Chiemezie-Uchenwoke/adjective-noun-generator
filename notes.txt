@@ -1,0 +1,70 @@
+import express from "express";
+import bodyParser from "body-parser";
+import path from "path"
+import { fileURLToPath } from "url"
+
+const app = express();
+const port = process.env.PORT || 3500;
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "views"))
+
+// middleware
+app.use(express.static(path.join(__dirname, "public")))
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+    res.render("index.ejs")
+});
+
+app.post("/submit", (req, res) => {
+  const chosenAdjective = getAdjective();
+  const chosenNoun = getNoun();
+
+
+  res.render("index.ejs", {
+    adjective: chosenAdjective,
+    noun: chosenNoun,
+  })
+});
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+export default app
+
+
+
+
+
+
+
+
+
+
+
+package.json
+{
+  "name": "4.0-ejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "build": "echo \"No build step needed\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}
